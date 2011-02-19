@@ -3,4 +3,48 @@
 
 /**
  * Main module file for the MADPub module.
+ *
+ * This module is the core module for MADPub integration.  It provides
+ * some basic API level functions and configurations.
  */
+
+/**
+ * Implementation of hook_help().
+ */
+function madpub_help($section) {
+  switch ($section) {
+    case 'admin/config/madpub':
+      return '<p>'. t('Basic configuration for the MADPub integration.') .'</p>';
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function madpub_menu() {
+  $items['admin/config/madpub'] = array(
+    'title' => 'MADPub',
+    'description' => 'Basic configuration for MADPub integration.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('madpub_admin_settings'),
+    'access arguments' => array('administer madpub'),
+  );
+  return $items;
+}
+
+/**
+ * Admin settings form
+ */
+function madpub_admin_settings($form, &$form_state) {
+  $form = array();
+  
+  $form['madpub_server_address'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Server Address'),
+    '#description' => t('This is the base REST address for push and pulling data from the MADPub server.'),
+    '#default_value' => variable_get('madpub_server_address', ''),
+  );
+  
+  return system_settings_form($form);
+}
+
