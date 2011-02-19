@@ -1,0 +1,8 @@
+; $Id$
+name = MADPub
+description = "The goal of this project is to build an application that streamlines the process of reporting and assessing the amount of damage in the occurrence of a natural disaster in the United States."
+package = MADPub
+core = 7.x
+files[] = madpub.module
+
+
