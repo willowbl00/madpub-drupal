@@ -1,0 +1,17 @@
+<?php
+// $Id$
+
+/**
+ * Main install file for the MADPub module.
+ *
+ * This file handles the basic install and enabling functions
+ * of the MADPub core module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function madpub_uninstall() {
+  // Remove variables
+  variable_del('madpub_server_address');
+}

@@ -4,5 +4,6 @@ description = "The goal of this project is to build an application that streamli
 package = MADPub
 core = 7.x
 files[] = madpub.module
+files[] = madpub.install
 
 

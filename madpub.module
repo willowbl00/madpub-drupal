@@ -15,7 +15,26 @@ function madpub_help($section) {
   switch ($section) {
     case 'admin/config/madpub':
       return '<p>'. t('Basic configuration for the MADPub integration.') .'</p>';
+      
+    case 'madpub':
+      return '<p>'. t('Fill out the following form to send your Damage Assessment to ??.') .'</p>';
   }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function hook_permission() {
+  return array(
+    'administer madpub' => array(
+      'title' => t('Administer MADPub'), 
+      'description' => t('Administer configurations for MADPub.'),
+    ),
+    'input madpub' => array(
+      'title' => t('Input MADPub'), 
+      'description' => t('Fill out the MADPub form.'),
+    ),
+  );
 }
 
 /**
@@ -28,6 +47,13 @@ function madpub_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('madpub_admin_settings'),
     'access arguments' => array('administer madpub'),
+  );
+  $items['madpub'] = array(
+    'title' => 'Damage Assessment Form',
+    'description' => 'Fill out the following form to send your Damage Assessment to ??',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('madpub_form'),
+    'access arguments' => array('input madpub'),
   );
   return $items;
 }
@@ -48,3 +74,12 @@ function madpub_admin_settings($form, &$form_state) {
   return system_settings_form($form);
 }
 
+/**
+ * Admin settings form
+ */
+function madpub_form($form, &$form_state) {
+  $form = array();
+  
+  
+  return $form;
+}
