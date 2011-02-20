@@ -17,7 +17,7 @@ function madpub_help($section) {
       return '<p>'. t('Basic configuration for the MADPub integration.') .'</p>';
       
     case 'madpub':
-      return '<p>'. t('Fill out the following form to send your Damage Assessment to ??.') .'</p>';
+      return '<p>'. t('Fill out the following form to send your Damage Assessment to ??.  This is just a draft and does not actually work.') .'</p>';
   }
 }
 
@@ -111,7 +111,7 @@ function madpub_form($form, &$form_state) {
       'phone' => t('Phone'),
       'e-mail' => t('EMail'),
     ),
-    '#default_value' => !empty($form_state['values']['pref_contact']) ? $form_state['values']['pref_contact'] : '',
+    '#default_value' => !empty($form_state['values']['pref_contact']) ? $form_state['values']['pref_contact'] : 'e-mail',
   );
   $form['fieldset_contact_information']['street_address_1'] = array(
     '#type' => 'textfield',
@@ -139,6 +139,45 @@ function madpub_form($form, &$form_state) {
     '#default_value' => !empty($form_state['values']['zip_code']) ? $form_state['values']['zip_code'] : '',
   );
   
+  // Damage
+  $form['fieldset_damage'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Damage Information'),
+    '#description' => t('Basic information on damage.'),
+  );
+  $form['fieldset_damage']['dam_date'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Date of damage'),
+    '#default_value' => !empty($form_state['values']['dam_date']) ? $form_state['values']['dam_date'] : '',
+  );
+  $form['fieldset_damage']['loc_date'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Location of damage'),
+    '#default_value' => !empty($form_state['values']['loc_date']) ? $form_state['values']['loc_date'] : '',
+  );
+  
+  // FEMA
+  $form['fieldset_fema'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('FEMA Information'),
+    '#description' => t('Information specific for FEMA.'),
+  );
+  $form['fieldset_fema']['FEMA_app'] = array(
+    '#type' => 'select',
+    '#title' => t('Started an application with FEMA?'),
+    '#options' => array(
+      'yes' => t('Yes'),
+      'no' => t('No'),
+    ),
+    '#default_value' => !empty($form_state['values']['FEMA_app']) ? $form_state['values']['FEMA_app'] : '',
+  );
+  $form['fieldset_fema']['FEMA_ref'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Reference number'),
+    '#default_value' => !empty($form_state['values']['FEMA_ref']) ? $form_state['values']['FEMA_ref'] : '',
+  );
+  
+  // Submit
   $form['submit_madpub'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
@@ -148,13 +187,28 @@ function madpub_form($form, &$form_state) {
 }
 
 /**
+ * Validation function for MADPub form.
+ */
+function madpub_form_validate($form, &$form_state) {
+
+}
+
+/**
  * Submit function for MADPub form.
  */
 function madpub_form_submit($form, &$form_state) {
   $base_url = variable_get('madpub_server_address', '');
+  $data = array();
+  
+  // Get rid of data we don't want
+  foreach ($form_state['values'] as $id => $value) {
+    if (!in_array($id, array('submit_madpub', 'form_build_id', 'form_token', 'form_id', 'op'))) {
+      $data[$id] = $value;
+    }
+  }
   
   // Prepare request
-  $data = http_build_query($form_state['values'], '', '&');
+  $data = http_build_query($data, '', '&');
   $headers = array();
   $options = array(
     'headers' => array(
