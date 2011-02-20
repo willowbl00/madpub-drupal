@@ -75,7 +75,7 @@ function madpub_admin_settings($form, &$form_state) {
 }
 
 /**
- * Admin settings form
+ * Input MADPub form
  */
 function madpub_form($form, &$form_state) {
 
@@ -139,5 +139,38 @@ function madpub_form($form, &$form_state) {
     '#default_value' => !empty($form_state['values']['zip_code']) ? $form_state['values']['zip_code'] : '',
   );
   
+  $form['submit_madpub'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+  
   return $form;
-} 
+}
+
+/**
+ * Submit function for MADPub form.
+ */
+function madpub_form_submit($form, &$form_state) {
+  $base_url = variable_get('madpub_server_address', '');
+  
+  // Prepare request
+  $data = http_build_query($form_state['values'], '', '&');
+  $headers = array();
+  $options = array(
+    'headers' => array(
+      'Accept' => 'application/json',
+    ),
+    'method' => 'POST',
+    'data' => $data
+  );
+
+  // Make request
+  $response = drupal_http_request($base_url . '??', $options);
+  
+  if ($response->code == 200) {
+    drupal_set_message('Message sent.');
+  }
+  else {
+    drupal_set_message('Message not sent.');
+  }
+}
