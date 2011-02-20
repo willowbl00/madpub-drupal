@@ -78,8 +78,66 @@ function madpub_admin_settings($form, &$form_state) {
  * Admin settings form
  */
 function madpub_form($form, &$form_state) {
+
+  $form['fieldset_contact_information'][''] = array(
+    '#type' => '',
+    '#title' => t(''),
+    '#default_value' => !empty($form_state['values']['']) ? $form_state['values'][''] : '',
+  );
+
   $form = array();
   
+  // Contact Information
+  $form['fieldset_contact_information'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Contact Information'),
+    '#description' => t('Basic contact information.'),
+  );
+  $form['fieldset_contact_information']['first_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('First name'),
+    '#default_value' => !empty($form_state['values']['first_name']) ? $form_state['values']['first_name'] : '',
+  );
+  $form['fieldset_contact_information']['last_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Last name'),
+    '#default_value' => !empty($form_state['values']['last_name']) ? $form_state['values']['last_name'] : '',
+  );
+  $form['fieldset_contact_information']['pref_contact'] = array(
+    '#type' => 'select',
+    '#title' => t('Preferred method of contact'),
+    '#options' => array(
+      'mail' => t('Mail'),
+      'phone' => t('Phone'),
+      'e-mail' => t('EMail'),
+    ),
+    '#default_value' => !empty($form_state['values']['pref_contact']) ? $form_state['values']['pref_contact'] : '',
+  );
+  $form['fieldset_contact_information']['street_address_1'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Street address'),
+    '#default_value' => !empty($form_state['values']['street_address_1']) ? $form_state['values']['street_address_1'] : '',
+  );
+  $form['fieldset_contact_information']['city'] = array(
+    '#type' => 'textfield',
+    '#title' => t('City'),
+    '#default_value' => !empty($form_state['values']['city']) ? $form_state['values']['city'] : '',
+  );
+  $form['fieldset_contact_information']['county'] = array(
+    '#type' => 'textfield',
+    '#title' => t('County'),
+    '#default_value' => !empty($form_state['values']['county']) ? $form_state['values']['county'] : '',
+  );
+  $form['fieldset_contact_information']['state'] = array(
+    '#type' => 'textfield',
+    '#title' => t('State'),
+    '#default_value' => !empty($form_state['values']['state']) ? $form_state['values']['state'] : '',
+  );
+  $form['fieldset_contact_information']['zip_code'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Zip'),
+    '#default_value' => !empty($form_state['values']['zip_code']) ? $form_state['values']['zip_code'] : '',
+  );
   
   return $form;
-}
+} 
