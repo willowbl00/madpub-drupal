@@ -109,6 +109,7 @@ function madpub_form($form, &$form_state) {
     '#options' => array(
       'mail' => t('Mail'),
       'phone' => t('Phone'),
+	  'cell' => t('Cell'),
       'e-mail' => t('EMail'),
     ),
     '#default_value' => !empty($form_state['values']['pref_contact']) ? $form_state['values']['pref_contact'] : 'e-mail',
@@ -133,10 +134,63 @@ function madpub_form($form, &$form_state) {
     '#title' => t('State'),
     '#default_value' => !empty($form_state['values']['state']) ? $form_state['values']['state'] : '',
   );
-  $form['fieldset_contact_information']['zip_code'] = array(
+  $form['fieldset_contact_information']['postcode'] = array(
     '#type' => 'textfield',
-    '#title' => t('Zip'),
-    '#default_value' => !empty($form_state['values']['zip_code']) ? $form_state['values']['zip_code'] : '',
+    '#title' => t('Postcode'),
+    '#default_value' => !empty($form_state['values']['postcode']) ? $form_state['values']['postcode'] : '',
+  );
+  $form['fieldset_contact_information']['contact_phone'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Phone'),
+    '#default_value' => !empty($form_state['values']['contact_phone']) ? $form_state['values']['contact_phone'] : '',
+  );
+  $form['fieldset_contact_information']['phone_xt'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Extension'),
+    '#default_value' => !empty($form_state['values']['phone_xt']) ? $form_state['values']['phone_xt'] : '',
+  );
+  $form['fieldset_contact_information']['cell'] = array(
+    '#type' => 'textfield',
+    '#title' => t('cell phone number'),
+    '#default_value' => !empty($form_state['values']['cell']) ? $form_state['values']['cell'] : '',
+  );
+  $form['fieldset_contact_information']['cell_prov'] = array(
+    '#type' => 'textfield',
+    '#title' => t('cell phone provider'),
+    '#default_value' => !empty($form_state['values']['cell_prov']) ? $form_state['values']['cell_prov'] : '',
+  );
+  $form['fieldset_contact_information']['contact_email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('E-mail'),
+    '#default_value' => !empty($form_state['values']['contact_email']) ? $form_state['values']['contact_email'] : '',
+  );
+  $form['fieldset_contact_information']['email_2'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Secondary e-mail'),
+    '#default_value' => !empty($form_state['values']['email_2']) ? $form_state['values']['email_2'] : '',
+  );
+  $form['fieldset_contact_information']['bus_res'] = array(
+    '#type' => 'select',
+    '#title' => t('Business or Residence?'),
+    '#options' => array(
+      'bus' => t('Business'),
+      'res' => t('Residence'),
+    ),
+    '#default_value' => !empty($form_state['values']['bus_res']) ? $form_state['values']['bus_res'] : '',
+  );
+  $form['fieldset_contact_information']['occupant_owner'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Occupant Business Name'),
+    '#default_value' => !empty($form_state['values']['occupant_owner']) ? $form_state['values']['occupant_owner'] : '',
+  );
+  $form['fieldset_contact_information']['renter_owner'] = array(
+    '#type' => 'select',
+    '#title' => t('Do you own the damaged property or rent there?'),
+	'#options' => array(
+		'rent' => t('Rent'),
+		'own' => t('Own'),
+	),
+    '#default_value' => !empty($form_state['values']['renter_owner']) ? $form_state['values']['renter_owner'] : '',
   );
   
   // Damage
@@ -154,6 +208,85 @@ function madpub_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Location of damage'),
     '#default_value' => !empty($form_state['values']['loc_date']) ? $form_state['values']['loc_date'] : '',
+  );
+  $form['fieldset_damage']['category'] = array(
+    '#type' => 'select',
+    '#title' => t('Category of Damage'),
+    '#options' => array(
+      'structural' => t('structural'),
+      'roadway' => t('roadway'),
+	  'land' => t('land'),
+    ),
+    '#default_value' => !empty($form_state['values']['category']) ? $form_state['values']['category'] : 'structural',
+  );
+  $form['fieldset_damage']['cause'] = array(
+    '#type' => 'select',
+    '#title' => t('Primary Cause of Damage'),
+    '#options' => array(
+      'earthquake' => t('earthquake'),
+      'fire' => t('fire'),
+      'flood' => t('flood'),
+	  'snowandice' => t('snowandice'),
+	  'vandalism' => t('vandalism'),
+	  'volcanos' => t('volcanos'),
+	  'wind' => t('wind'),
+	  'other' => t('other'),
+    ),
+    '#default_value' => !empty($form_state['values']['category']) ? $form_state['values']['category'] : 'structural',
+  );
+  $form['fieldset_damage']['description'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Description of Damage'),
+    '#default_value' => !empty($form_state['values']['description']) ? $form_state['values']['description'] : '',
+  );
+  $form['fieldset_damage']['dam_loc_prop'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Location on property of damage'),
+    '#default_value' => !empty($form_state['values']['dam_loc_prop']) ? $form_state['values']['dam_loc_prop'] : '',
+  );
+  $form['fieldset_damage']['habitable'] = array(
+    '#type' => 'select',
+    '#title' => t('Is the location habitable?'),
+	'#options' => array(
+      'yes' => t('Yes'),
+      'no' => t('No'),
+    ),
+    '#default_value' => !empty($form_state['values']['habitable']) ? $form_state['values']['habitable'] : '',
+  );
+  $form['fieldset_damage']['accessible'] = array(
+    '#type' => 'select',
+    '#title' => t('Is the location accessible?'),
+	'#options' => array(
+      'yes' => t('Yes'),
+      'no' => t('No'),
+    ),
+    '#default_value' => !empty($form_state['values']['accessible']) ? $form_state['values']['accessible'] : '',
+  );
+  $form['fieldset_damage']['estimated_loss_furnishings'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Estimated loss in furnishings'),
+    '#default_value' => !empty($form_state['values']['estimated_loss_furnishings']) ? $form_state['values']['estimated_loss_furnishings'] : '',
+  );
+  // Needs 5 horizontal radio buttons from minor to catestrophic
+  $form['fieldset_damage']['damage_degree'] = array(
+    '#type' => '',
+    '#title' => t('Degree of Damage'),
+    '#default_value' => !empty($form_state['values']['damage_degree']) ? $form_state['values']['damage_degree'] : '',
+  );
+  $form['fieldset_damage']['no_days_closed'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Number of days your business will be closed'),
+    '#default_value' => !empty($form_state['values']['no_days_closed']) ? $form_state['values']['no_days_closed'] : '',
+  );
+  $form['fieldset_damage']['pers_prop_loss'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Estimated personal property loss in dollars'),
+    '#default_value' => !empty($form_state['values']['pers_prop_loss']) ? $form_state['values']['pers_prop_loss'] : '',
+  );
+  $form['fieldset_damage']['structure_loss'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Estimated structure loss in dollars'),
+    '#default_value' => !empty($form_state['values']['structure_loss']) ? $form_state['values']['structure_loss'] : '',
   );
   
   // FEMA
@@ -176,7 +309,45 @@ function madpub_form($form, &$form_state) {
     '#title' => t('Reference number'),
     '#default_value' => !empty($form_state['values']['FEMA_ref']) ? $form_state['values']['FEMA_ref'] : '',
   );
-  
+  // Insurance
+  $form['fieldset_insurance'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Insurance Information'),
+    '#description' => t('Information specific for Insurance.'),
+  );
+  $form['fieldset_insurance']['insurance'] = array(
+    '#type' => 'select',
+    '#title' => t('Do you have Insurance?'),
+    '#options' => array(
+      'yes' => t('Yes'),
+      'no' => t('No'),
+    ),
+    '#default_value' => !empty($form_state['values']['insurance']) ? $form_state['values']['insurance'] : '',
+  );
+  // Needs drop-down casualty, property, liability, other
+  $form['fieldset_insurance']['type_of_insurance'] = array(
+    '#type' => '',
+    '#title' => t('Type of Insurance?'),
+    '#default_value' => !empty($form_state['values']['type_of_insurance']) ? $form_state['values']['type_of_insurance'] : '',
+  );
+  $form['fieldset_insurance']['provider'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Insurance Provider'),
+    '#default_value' => !empty($form_state['values']['provider']) ? $form_state['values']['provider'] : '',
+  );
+  $form['fieldset_insurance']['deductible'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Deductible'),
+    '#default_value' => !empty($form_state['values']['deductible']) ? $form_state['values']['deductible'] : '',
+  );
+  $form['fieldset_insurance']['continuity'] = array(
+    '#type' => 'select',
+    '#title' => t('Do you have Business Continuity Insurance?'),
+    '#options' => array(
+      'yes' => t('Yes'),
+      'no' => t('No'),
+   ); 
+
   // Submit
   $form['submit_madpub'] = array(
     '#type' => 'submit',
